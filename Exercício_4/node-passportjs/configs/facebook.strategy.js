@@ -8,7 +8,6 @@ passport.use(new FacebookStrategy({
   },
   function(accessToken, refreshToken, profile, cb) {
         return cb(undefined, profile);
-    
   }
 ));
 

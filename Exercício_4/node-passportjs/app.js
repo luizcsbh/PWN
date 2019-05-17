@@ -14,6 +14,8 @@ const profileRouter = require('./routes/profile');
 const app = express();
 require('./configs/github.strategy');
 require('./configs/facebook.strategy');
+require('./configs/google.strategy');
+require('./configs/linkedin.strategy');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
