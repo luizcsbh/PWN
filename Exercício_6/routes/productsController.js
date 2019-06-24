@@ -23,6 +23,7 @@ let ListaProdutos = {
 };
 
 module.exports = {
+    /**Exibindo todos os produtos */
     get(_, res) {
         if (Array.isArray(ListaProdutos.items) != true) {
             res.json({ error: 'Exibir um lista de Produtos' })
@@ -31,11 +32,12 @@ module.exports = {
             res.json(ListaProdutos);
         }
     },
+    
     getById(req, res) {
-        let zid = req.params.id;
+        let pid = req.params.id;
         let prod;
         for (let i = 0; i < ListaProdutos.items.length; i++) {
-            if (ListaProdutos.items[i].id == zid) {
+            if (ListaProdutos.items[i].id == pid) {
                 prod = ListaProdutos.items[i];
             }
         }
@@ -45,6 +47,7 @@ module.exports = {
             res.json(prod)
         }
     },
+    /**Inserindo um novo produto */
     insert(req, res) {
         if (req.body.description.length < 10) {
             res.json({ error: 'A descrição deve ser maior do que 10 caracteres' })
@@ -55,12 +58,13 @@ module.exports = {
             res.json({ success: 'true', error: '' });
         }
     },
-    delet(req, res) {
+    /**Apagando um produto */
+    delete(req, res) {
         let lista = ListaProdutos.items;
-        let zid = req.params.id;
+        let pid = req.params.id;
 
         for (let i = 0; i < lista.length; i++) {
-            if (lista[i].id == zid) {
+            if (lista[i].id == pid) {
                 lista.splice(i, 1);
                 i--;
                 res.json(lista);

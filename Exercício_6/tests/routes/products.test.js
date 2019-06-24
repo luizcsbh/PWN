@@ -46,7 +46,7 @@ describe('Adicionar novos Produtos', function(){
     it('Adicionar novo objeto', function(){
         const getReq = req;
         getReq.body = {
-            id:'5',
+            id:'4',
             name:'Smartphone',
             description:'celular',
             price:'3500.00'
@@ -57,7 +57,7 @@ describe('Adicionar novos Produtos', function(){
     it('Adicoionar - descrição deve ser maior do que 10 caracteres', function(){
         const getReq = req;
         getReq.body = {
-            id:'5',
+            id:'4',
             name:'Smartphone',
             description:'celular',
             price:'3500.00'
@@ -68,7 +68,7 @@ describe('Adicionar novos Produtos', function(){
     it('Adicionar preço maior que 0', function () {
         const getReq = req;
         getReq.body = {
-            id:'5',
+            id:'4',
             name:'Smartphone',
             description:'celular SamSung Galaxy S10',
             price:'-1'
