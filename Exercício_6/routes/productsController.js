@@ -1,12 +1,70 @@
+let ListaProdutos = {
+    items: [
+
+        {
+            id: '1',
+            name: 'tablet',
+            description: 'IPad',
+            price: '5500.00'
+        },
+        {
+            id: '2',
+            name: 'cellphone',
+            description: 'IPhone',
+            price: '3500.00'
+        },
+        {
+            id: '3',
+            name: 'Notebook',
+            description: 'Mac Air Pro',
+            price: '16999.99'
+        }
+    ]
+};
+
 module.exports = {
     get(_, res) {
-        res.json({ title: 'Products page' });
+        if (Array.isArray(ListaProdutos.items) != true) {
+            res.json({ error: 'Exibir um lista de Produtos' })
+        } else {
+            console.log(ListaProdutos.items.length);
+            res.json(ListaProdutos);
+        }
     },
     getById(req, res) {
-        if (!req.params.id) {
-            res.json({ error: 'Should receive an id' })
+        let zid = req.params.id;
+        let prod;
+        for (let i = 0; i < ListaProdutos.items.length; i++) {
+            if (ListaProdutos.items[i].id == zid) {
+                prod = ListaProdutos.items[i];
+            }
         }
+        if (prod.id == undefined || prod.name == undefined || prod.description == undefined || prod.price == undefined) {
+            res.json({ error: 'Propriedades especificas do produto' })
+        } else {
+            res.json(prod)
+        }
+    },
+    insert(req, res) {
+        if (req.body.description.length < 10) {
+            res.json({ error: 'A descrição deve ser maior do que 10 caracteres' })
+        } else if (req.body.price <= 0) {
+            res.json({ error: 'O preço deve ser maior que 0' })
+        } else {
+            ListaProdutos.items.push(req.body)
+            res.json({ success: 'true', error: '' });
+        }
+    },
+    delet(req, res) {
+        let lista = ListaProdutos.items;
+        let zid = req.params.id;
 
-        res.json({ success: 'Id received!' })
+        for (let i = 0; i < lista.length; i++) {
+            if (lista[i].id == zid) {
+                lista.splice(i, 1);
+                i--;
+                res.json(lista);
+            }
+        }
     }
 };

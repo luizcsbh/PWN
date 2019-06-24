@@ -13,22 +13,79 @@ const res = {
         this.jsonCalledWith = arg
     }
 }
+/**Exibe a Lista de todos os Produtos */
+describe('Lista de Produto', function(){
+    it('Retornar a lista de produtos', function() {
+        get(req, res);
+        expect(res.jsonCalledWith).to.be.a('object');
+    });
+})
 
-describe('Products Route', function() {
-    describe('get() function', function() {
-        it('should return object with title ', function() {
-            get(req, res);
-            expect(res.jsonCalledWith).to.be.eql({ title: 'Products page'});
-        });
+/**Exibe apenas um produto por id */
+describe('Lista de produto por um único identificador', function(){
+    it('Exibir um único produto por identificador', function(){
+        const getReq = req;
+        getReq.params = { 
+            id: 1
+        };
+        getById(getReq, res);
+        expect(res.jsonCalledWith).to.have.property('id', '1')
+    });
+    it('Propriedades especificas do produto', function(){
+        const getReq = req;
+        getReq.params = {
+            id:1
+        };
+        getById(getReq, res);
+        expect(res.jsonCalledWith).to.be.have.keys('id', 'name', 'description', 'price');
+    });
+});
 
-        it('should receive return by id ', function() {
-            const getReq = req;
-            getReq.params = {
-                id: 1
-            };
+/**Inserindo um novo produto */
+describe('Adicionar novos Produtos', function(){
+    it('Adicionar novo objeto', function(){
+        const getReq = req;
+        getReq.body = {
+            id:'5',
+            name:'Smartphone',
+            description:'celular',
+            price:'3500.00'
+        };
+        insert(getReq, res);
+        expect(res.jsonCalledWith).to.have.property('Adicionado com sucesso!!!');
+    });
+    it('Adicoionar - descrição deve ser maior do que 10 caracteres', function(){
+        const getReq = req;
+        getReq.body = {
+            id:'5',
+            name:'Smartphone',
+            description:'celular',
+            price:'3500.00'
+        };
+        insert(getReq, res);
+        expect(res.jsonCalledWith).to.have.property('Erro', 'A descrição deve ser maior do que 10 caracteres');
+    });
+    it('Adicionar preço maior que 0', function () {
+        const getReq = req;
+        getReq.body = {
+            id:'5',
+            name:'Smartphone',
+            description:'celular SamSung Galaxy S10',
+            price:'-1'
+        };
+        insert(getReq, res);
+        expect(res.jsonCalledWith).to.have.property('Erro', 'O preço tem que ser maior que 0');
+    });
+});
 
-            getById(getReq, res);
-            expect(res.jsonCalledWith).to.be.have.key('success')
-        });
-    })
+describe('Apagar um produto por identificador', function () {
+    it('Apagar ', function () {
+        const getReq = req;
+        getReq.params = {
+            id: 2
+        };
+        delet(getReq, res);
+        //console.log(res);
+        expect(res.jsonCalledWith.filter(p => p.id == 2).length == 0).to.be.true;
+    });
 });
