@@ -54,7 +54,7 @@ describe('Adicionar novos Produtos', function(){
         insert(getReq, res);
         expect(res.jsonCalledWith).to.have.property('Adicionado com sucesso!!!');
     });
-    it('Adicoionar - descrição deve ser maior do que 10 caracteres', function(){
+    it('Adicionar - descrição deve ser maior do que 10 caracteres', function(){
         const getReq = req;
         getReq.body = {
             id:'4',
